@@ -11,7 +11,7 @@ runs:
   using: 'composite'
   steps:
 
-    - name: Run TOX Building
+    - name: TOX Building Process
       id: run-and-build-tox
       run: python src/tox_builder.py ${{ inputs.build_settings }}
       shell: cmd
