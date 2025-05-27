@@ -47,7 +47,7 @@ _Required keys_
     "PROJECT_FILE": "./TouchDesigner/project.toe",
     "COMP_NAME": "Example Comp",
     "BUILD_CONTENTS" : "packageZip",
-    "USE_TDM": False
+    "USE_TDM": false
 }
 ```
 
