@@ -1,11 +1,23 @@
 # TD Build TOX Package GitHub Action
 
-A repository for a github action to facilitate CI operations for TouchDesigner.
+A repository for a github action that facilitates CI operations for TouchDesigner.
 
 SudoMagic has identified a repeatable pattern for automating the process of creating `TOX` files from a host TouchDesigner `TOE` file. This is particularly helpful if you're looking to create repeatable patterns for building out releases on GitHub using their automation pipelines.
 
 While it's not currently practical to use the hosted images on GitHub, at SudoMagic we find that using [Self Hosted Runners](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners) is a viable alternative being able to both leverage the automation patterns from github's actions paradigm, while also ensuring that you control the hardware on which it's built.
 
+## Behavior Overview
+
+This action follows an automation pattern that assumes the following order of operations:
+
+1. Pull repo and any submodules
+2. Load the contents of a `json` file that holds build settings for the project.
+3. Verify that the buildSettings file contains all required elements
+4. Set environment variables provided by buildSettings to be used by the project `TOE` file
+5. Create output directories for uploading assets
+6. Start a blocking subprocess with the `TOE` file from buildSettings with a specified version of TouchDesigner
+7. When the `TOE` file closes, iterate through the contents of a log file and send the contents to the git actions cloud console
+8. Clean up all environment variables
 
 ## Machine Set-up and Configuration
 
