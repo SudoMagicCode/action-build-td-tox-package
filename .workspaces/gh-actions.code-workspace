@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "name": "TD Build Scripts",
+            "path": "../",
+            "cwd": "${workspaceFolder}/project",
+        },
+    ],
+    "settings": {
+        "files.exclude": {},
+        "workbench.colorTheme": "Overflow Contrast (rainglow)",
+    },
+}
