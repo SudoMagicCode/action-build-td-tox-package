@@ -108,10 +108,10 @@ def main():
     build_settings.load_from_json(settings_file_path)
 
     match build_settings.build_contents:
-        case td_builder.tox_build_contents.tox_build_contents.packageZip:
+        case td_builder.tox_build_contents.packageZip:
             build_tox_package(build_settings=build_settings)
 
-        case td_builder.tox_build_contents.tox_build_contents.toxFiles:
+        case td_builder.tox_build_contents.toxFiles:
             build_inventory(build_settings=build_settings)
         case _:
             print("Missing build contents should be : packageZip or toxFiles")

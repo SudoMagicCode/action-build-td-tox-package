@@ -1,5 +1,5 @@
 import json
-from tox_build_contents import tox_build_contents
+from .tox_build_contents import tox_build_contents
 
 
 class settings:
