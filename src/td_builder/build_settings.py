@@ -65,9 +65,9 @@ class settings:
         '''
         '''
         tox_content_map: dict = {
-            tox_build_contents.packageZip: tox_build_contents.packageZip.name,
-            tox_build_contents.toxFiles: tox_build_contents.toxFiles.name,
-            tox_build_contents.undefined: tox_build_contents.undefined.name,
+            tox_build_contents.packageZip.name: tox_build_contents.packageZip,
+            tox_build_contents.toxFiles.name: tox_build_contents.toxFiles,
+            tox_build_contents.undefined.name: tox_build_contents.undefined,
         }
         tox_content = tox_content_map.get(name, tox_build_contents.undefined)
         return tox_content
