@@ -8,7 +8,7 @@ class settings:
         "TD_VERSION",
         "PROJECT_FILE",
         "COMP_NAME",
-        "BUILD_CONTENTS"
+        "BUILD_CONTENTS",
         "USE_TDM"
     ]
 
