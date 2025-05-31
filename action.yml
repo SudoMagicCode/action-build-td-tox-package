@@ -13,5 +13,5 @@ runs:
 
     - name: TOX Building Process
       id: run-and-build-tox
-      run: python src/tox_builder.py ${{ inputs.build_settings }}
+      run: python ${{ github.action_path }}/src/tox_builder.py ${{ inputs.build_settings }}
       shell: cmd
