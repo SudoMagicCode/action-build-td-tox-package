@@ -110,16 +110,16 @@ jobs:
           fetch-tags: true
           submodules: true 
 
-      - name: Python TD Builder
-        uses: ./
+      - name: SudoMagic TD Package Builder
+        uses: SudoMagicCode/action-build-td-tox-package@v0.0.1
         with:
           build_settings: ./buildSettings.json
-
+          
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ./release/*
+          files: ./release/package.zip
 
 ```
 
