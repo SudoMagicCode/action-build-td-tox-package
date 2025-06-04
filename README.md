@@ -128,6 +128,9 @@ jobs:
 
 
 ### A Repository that produces a .zip file
-
+[TD TOX Builder Template](https://github.com/SudoMagicCode/td-tox-builder-template)
+This repository is intended to act as boiler plate and starting point for any automation based TouchDesigner repo. This repo pattern is built around the idea that you want to creat a single .zip file that acts as a TouchDesigner module that you want to release.
 
 ### A Repository that produces many `tox` files
+[SudoMagic TouchDesigner Templates](https://github.com/SudoMagicCode/sm-td-templates)
+This repository acts generates many TOX files that are all bundled into a release. This pattern is most useful when the repo is read by another component and can fetch each of the TOX files listed.
