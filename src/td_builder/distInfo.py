@@ -31,8 +31,11 @@ class distInfo:
         git_branch_process = subprocess.run(
             "git remote get-url origin", shell=True, capture_output=True)
         remote = str(git_branch_process.stdout, 'utf-8').strip()
-        self.remoteOrigin = remote[:-4]
-        self.remoteSource = remote[8:-4]
+        print(remote)
+
+        # TODO check to see if remote ends in .git - remove this if it exists, otherwise leave it
+        self.remoteOrigin = remote
+        self.remoteSource = remote[8:]
 
     def _updateVersionInfo(self) -> None:
         '''Pulls version info from the latest version tag off of the repo itself
