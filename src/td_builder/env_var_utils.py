@@ -3,9 +3,10 @@ A small library of utility functions for managing environment variables
 '''
 
 import os
+from .distInfo import distInfo
 
 
-def set_env_vars(build_settings: dict, dist_info: dict):
+def set_env_vars(build_settings: dict, dist_info: distInfo):
     '''A utility function to set environment variables'''
 
     print(f"-> Setting Environment Variables")
@@ -13,11 +14,11 @@ def set_env_vars(build_settings: dict, dist_info: dict):
         _set_env_var(each_key, each_val)
 
     # set the sem-ver as a env var available to TouchDesigner
-    semver = f"{dist_info.get('major', 'dev')}.{dist_info.get('minor', 'dev')}.{dist_info.get('patch', 'dev')}"
+    semver = f"{dist_info.major}.{dist_info.minor}.{dist_info.patch}"
     _set_env_var("SM_TOXVERSION", semver)
 
     # set the repo url as a env var available to TouchDesigner
-    repo_url = dist_info.get("remoteUrl", "url-unknown")
+    repo_url = dist_info.remoteSource
     _set_env_var("SM_REPO", repo_url)
 
 

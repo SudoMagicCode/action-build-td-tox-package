@@ -91,3 +91,6 @@ class distInfo:
         }
 
         return info_dict
+
+
+print(distInfo().remoteSource)
