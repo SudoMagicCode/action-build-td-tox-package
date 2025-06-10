@@ -80,7 +80,7 @@ def build_inventory(build_settings: td_builder.build_settings.settings):
 
     # set up env vars
     td_builder.env_var_utils.set_env_vars(
-        build_settings=build_settings.env_vars, dist_info=dist_info.asDict)
+        build_settings=build_settings.env_vars, dist_info=dist_info)
 
     # fetch TDM dependencies
     if build_settings.use_tdm:
