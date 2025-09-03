@@ -32,7 +32,7 @@ class settings:
 
     @property
     def td_package_file(self) -> str:
-        return f"{self.dest_dir}/tdPackages.yaml"
+        return f"{self.dest_dir}/tdmPackages.yml"
 
     @property
     def project_name(self) -> str:
