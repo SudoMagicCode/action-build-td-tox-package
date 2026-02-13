@@ -45,32 +45,29 @@ class distInfo:
         git_branch_process = subprocess.run(
             "git rev-parse --abbrev-ref HEAD", shell=True, capture_output=True)
         branch = str(git_branch_process.stdout, 'utf-8').strip()
+
         # replace any / characters from branch
         branch = branch.replace("/", "-")
+
         git_tag_process = subprocess.run(
             "git describe --tags", shell=True, capture_output=True)
         last_full_tag = str(git_tag_process.stdout, 'utf-8').strip()
+
+        print(f'last full tag {last_full_tag}')
 
         tag_parts = last_full_tag.split('-')
         major_minor = tag_parts[0]
         major = major_minor.split('.')[0][1:]
         minor = major_minor.split('.')[1]
 
-        num_commits = "0"
-
-        current_commit_hash = None
+        num_commits = tag_parts[1]
+        current_commit_hash = tag_parts[2]
 
         if len(major_minor.split('.')) > 2:
             num_commits = major_minor.split('.')[2]
 
         semver = f"{major_minor}.{num_commits}"
-
-        if branch != "main":
-            if current_commit_hash is not None:
-                semver = f"{semver}+{branch}-{current_commit_hash}"
-
-            else:
-                semver = f"{semver}+{branch}"
+        print(f'semver logged as {semver}')
 
         self.commit = "unknown" if current_commit_hash == None else current_commit_hash
         self.semver = semver
