@@ -111,7 +111,7 @@ jobs:
           submodules: true 
 
       - name: SudoMagic TD Package Builder
-        uses: SudoMagicCode/action-build-td-tox-package@v0.0.1
+        uses: SudoMagicCode/action-build-td-tox-package@v0.0.3
         with:
           build_settings: ./buildSettings.json
           
