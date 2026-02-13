@@ -93,11 +93,11 @@ All of the above keys will be passed to TouchDesigner as Environment Variables o
 ### Example Workflow
 
 ```yaml
-name: push to version tag
+name: Create realse from Main
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - main
 
 jobs:
   Build_tox:
