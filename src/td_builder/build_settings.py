@@ -14,9 +14,16 @@ class settings:
         self._project_name: str = "TBD"
         self.release_dir: str = "release"
         self.package_dir: str = f"{self.release_dir}/package"
-        self.log_file: str = f"{self.package_dir}/log.txt"
         self.additional_keys: dict = {}
         self.build_contents: tox_build_contents = tox_build_contents.undefined
+
+    @property
+    def log_file(self) -> str:
+        match self.build_contents:
+            case tox_build_contents.toxFiles:
+                return f"{self.package_dir}/log.txt"
+            case _:
+                return f"{self.release_dir}/log.txt"
 
     @property
     def dest_dir(self) -> str:
