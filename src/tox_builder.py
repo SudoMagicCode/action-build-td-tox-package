@@ -1,8 +1,9 @@
 import json
-import subprocess
 import os
 import shutil
+import subprocess
 import sys
+from pathlib import Path
 
 import td_builder
 
@@ -12,97 +13,96 @@ targets_dir_name = "targets"
 dist_info: dict = {}
 
 
-def build_tox_package(build_settings: td_builder.build_settings.settings):
-    '''
-    '''
-    print('> building tox package...')
-
+def check_output_dir(outputDir) -> None:
     # Verify dist directory exists
+    td_builder.output_utils.log_event("verifying output directories are created...")
+
+    if not os.path.isdir(outputDir):
+        td_builder.output_utils.log_event("creating directories...", indent=1)
+        os.makedirs(outputDir, exist_ok=True)
+
+
+def tdm_install() -> None:
+    # fetch TDM dependencies
+    td_builder.output_utils.log_event("Fetching all TDM elements")
+    subprocess.call(["tdm", "install"], cwd="./TouchDesigner/")
+
+
+def tdm_run() -> None:
+    current_dir = Path.cwd()
+
+    td_dir = current_dir / "TouchDesigner"
+    td_builder.output_utils.log_event(f"moving to {td_dir}")
+    os.chdir(td_dir)
+    # start project with TDM
+    td_builder.output_utils.log_event("starting project with tdm run")
+    subprocess.call(["tdm", "run"])
+
+
+def build_tox_package(build_settings: td_builder.build_settings.settings):
+    """ """
+
+    td_builder.output_utils.log_event("Building TOX package...")
+
+    # verify output directory exists
     dist_dir = f"{build_settings.dest_dir}/"
-    print('> verifying output directories are created...')
-    if not os.path.isdir(dist_dir):
-        print('-> creating directories...')
-        os.makedirs(dist_dir, exist_ok=True)
+    check_output_dir(dist_dir)
 
-    print("> Starting deploy process...")
+    td_builder.output_utils.log_event("Starting deploy process...")
 
-    print("-> Finding Version Info...")
+    td_builder.output_utils.log_event("Finding Version Info...", indent=1)
     dist_info = td_builder.distInfo.distInfo()
 
-    print(
-        f"--> Creating build {dist_info.major}.{dist_info.minor}.{dist_info.patch}")
-
-    # set up env vars
-    td_builder.env_var_utils.set_env_vars(
-        build_settings=build_settings.env_vars, dist_info=dist_info)
+    td_builder.output_utils.log_event(
+        f"Creating build {dist_info.major}.{dist_info.minor}.{dist_info.patch}",
+        indent=1,
+    )
 
     # fetch TDM dependencies
-    if build_settings.use_tdm:
-        print("--> Fetch TDM elements")
-        subprocess.call(['tdm', 'install'], cwd="./TouchDesigner/")
+    tdm_install()
 
-    # run td project
-    print("--> Starting TouchDesigner")
-    td_version = f"C:/Program Files/Derivative/TouchDesigner.{build_settings.td_version}/bin/TouchDesigner.exe"
-    subprocess.call([td_version, build_settings.project_file])
+    # run project with TDM
+    tdm_run()
 
-    td_builder.read_td_log.write_log_to_cloud(
-        build_settings.log_file)
+    td_builder.read_td_log.write_log_to_cloud(build_settings.log_file)
 
-    print("--> Zipping package")
+    td_builder.output_utils.log_event("Zipping package", indent=1)
     shutil.make_archive(
-        build_settings.package_dir, 'zip', root_dir=build_settings.package_dir)
-
-    # cleanup environment variable keys
-    td_builder.env_var_utils.clear_env_vars(
-        build_settings=build_settings.env_vars)
+        build_settings.package_dir, "zip", root_dir=build_settings.package_dir
+    )
 
 
 def build_inventory(build_settings: td_builder.build_settings.settings):
-    '''
-    '''
-    print('> building tox inventory...')
+    """ """
+    td_builder.output_utils.log_event("building tox inventory...")
 
-    # Verify dist directory exists
+    # verify output directory exists
     dist_dir = f"{build_settings.dest_dir}/"
-    print('> verifying output directories are created...')
-    if not os.path.isdir(dist_dir):
-        print('-> creating directories...')
-        os.makedirs(dist_dir, exist_ok=True)
+    check_output_dir(dist_dir)
 
-    print("> Starting deploy process...")
+    td_builder.output_utils.log_event("Starting deploy process...")
+    td_builder.output_utils.log_event("Finding Version Info...", indent=1)
 
-    print("-> Finding Version Info...")
     dist_info = td_builder.distInfo.distInfo()
 
-    print(
-        f"--> Creating build {dist_info.major}.{dist_info.minor}.{dist_info.patch}")
-
-    # set up env vars
-    td_builder.env_var_utils.set_env_vars(
-        build_settings=build_settings.env_vars, dist_info=dist_info)
+    td_builder.output_utils.log_event(
+        f"Creating build {dist_info.major}.{dist_info.minor}.{dist_info.patch}",
+        indent=1,
+    )
 
     # fetch TDM dependencies
-    if build_settings.use_tdm:
-        print("--> Fetch TDM elements")
-        subprocess.call(['tdm', 'install'], cwd="./TouchDesigner/")
+    tdm_install()
 
-    # run td project
-    print("--> Starting TouchDesigner")
-    td_version = f"C:/Program Files/Derivative/TouchDesigner.{build_settings.td_version}/bin/TouchDesigner.exe"
-    subprocess.call([td_version, build_settings.project_file])
+    # run project with TDM
+    tdm_run()
 
-    td_builder.read_td_log.write_log_to_cloud(
-        build_settings.log_file)
-
-    # cleanup environment variable keys
-    td_builder.env_var_utils.clear_env_vars(
-        build_settings=build_settings.env_vars)
+    td_builder.read_td_log.write_log_to_cloud(build_settings.log_file)
 
 
 def main():
-    print('> creating release...')
-    print('> checking buildSettings.json ...')
+    td_builder.output_utils.log_event("creating release...")
+    td_builder.output_utils.log_event("checking buildSettings.json ...")
+
     settings_file_path: str = sys.argv[1]
     build_settings = td_builder.build_settings.settings()
     build_settings.load_from_json(settings_file_path)
