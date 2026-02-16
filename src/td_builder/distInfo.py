@@ -41,38 +41,32 @@ class distInfo:
         '''Pulls version info from the latest version tag off of the repo itself
         '''
 
-        # grab git information...
-        git_branch_process = subprocess.run(
-            "git rev-parse --abbrev-ref HEAD", shell=True, capture_output=True)
-        branch = str(git_branch_process.stdout, 'utf-8').strip()
+        # 1. Get the latest tag name (matching your vX.Y pattern)
+        # Using the same logic as your GitHub Action
+        tag_cmd = ['git', 'describe', '--tags', '--abbrev=0', '--match', 'v[0-9]*.[0-9]*']
+        latest_tag = subprocess.check_output(tag_cmd, text=True).strip()
 
-        # replace any / characters from branch
-        branch = branch.replace("/", "-")
+        major_minor_patch = latest_tag.split('.')
+        major_minor = '.'.join([major_minor_patch[0], major_minor_patch[1]])        
 
-        git_tag_process = subprocess.run(
-            "git describe --tags", shell=True, capture_output=True)
-        last_full_tag = str(git_tag_process.stdout, 'utf-8').strip()
+        # 2. Get the count of commits from that tag to the current HEAD
+        count_cmd = ['git', 'rev-list', '--count', f'{major_minor}..HEAD']
+        num_commits = subprocess.check_output(count_cmd, text=True).strip()
 
-        print(f'last full tag {last_full_tag}')
+        # get the branch
+        branch = subprocess.check_output(
+            ['git', 'rev-parse', '--abbrev-ref', 'HEAD'], 
+            text=True).strip()
 
-        tag_parts = last_full_tag.split('-')
-        major_minor = tag_parts[0]
-        major = major_minor.split('.')[0][1:]
-        minor = major_minor.split('.')[1]
-
-        num_commits = tag_parts[1]
-        current_commit_hash = tag_parts[2]
-
-        if len(major_minor.split('.')) > 2:
-            num_commits = major_minor.split('.')[2]
+        commit = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], text=True).strip()
 
         semver = f"{major_minor}.{num_commits}"
         print(f'semver logged as {semver}')
 
-        self.commit = "unknown" if current_commit_hash == None else current_commit_hash
+        self.commit = commit
         self.semver = semver
-        self.major = major
-        self.minor = minor
+        self.major = major_minor_patch[0].strip('v')
+        self.minor = major_minor_patch[1]
         self.patch = num_commits
         self.branch = branch
 
@@ -91,3 +85,6 @@ class distInfo:
         }
 
         return info_dict
+
+# if __name__ == __name__:
+#     print(distInfo().asDict)
