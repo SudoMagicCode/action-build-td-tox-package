@@ -1,4 +1,5 @@
 import json
+
 from .tox_build_contents import tox_build_contents
 
 
@@ -9,22 +10,28 @@ class settings:
         "PROJECT_FILE",
         "COMP_NAME",
         "BUILD_CONTENTS",
-        "USE_TDM"
+        "USE_TDM",
     ]
 
     def __init__(self):
         self.project_file: str
         self.td_version: str
-        self.log_file: str
         self.privacy: str
         self._build: str = "TRUE"
         self._project_name: str = "TBD"
-        self.release_dir: str = 'release'
+        self.release_dir: str = "release"
         self.package_dir: str = f"{self.release_dir}/package"
-        self.log_file: str = f"{self.package_dir}/log.txt"
         self.additional_keys: dict = {}
         self.use_tdm: bool = False
         self.build_contents: tox_build_contents = tox_build_contents.undefined
+
+    @property
+    def log_file(self) -> str:
+        match self.build_contents:
+            case tox_build_contents.toxFiles:
+                return f"{self.release_dir}/log.txt"
+            case _:
+                return f"{self.package_dir}/log.txt"
 
     @property
     def dest_dir(self) -> str:
@@ -51,7 +58,7 @@ class settings:
             "SM_SAVE_PATH": f"../{self.dest_dir}",
             "SM_COMP_NAME": self.project_name,
             "SM_LOG_FILE": f"../{self.log_file}",
-            "SM_TD_PACKAGE_FILE": f"../{self.td_package_file}"
+            "SM_TD_PACKAGE_FILE": f"../{self.td_package_file}",
         }
 
         # add additional keys
@@ -62,8 +69,7 @@ class settings:
         return env_vars
 
     def _tox_build_contents_from_name(self, name: str) -> tox_build_contents:
-        '''
-        '''
+        """ """
         tox_content_map: dict = {
             tox_build_contents.packageZip.name: tox_build_contents.packageZip,
             tox_build_contents.toxFiles.name: tox_build_contents.toxFiles,
@@ -73,21 +79,22 @@ class settings:
         return tox_content
 
     def load_from_json(self, src_file: str) -> dict:
-        print('-> loading build settings from file...')
+        print("-> loading build settings from file...")
 
         try:
-            with open(src_file, 'r') as file:
+            with open(src_file, "r") as file:
                 data: dict = json.load(file)
 
                 if set(settings.REQUIRED_KEYS) <= data.keys():
-                    print('-> all required keys accounted for')
+                    print("-> all required keys accounted for")
                     self._build = data.get("BUILD", "development")
                     self.td_version = data.get("TD_VERSION", "unknown")
                     self.project_file = data.get("PROJECT_FILE", "unknown")
                     self._project_name = data.get("COMP_NAME", "not-set")
                     self.use_tdm = data.get("USE_TDM", False)
                     self.build_contents = self._tox_build_contents_from_name(
-                        data.get("BUILD_CONTENTS", "undefined"))
+                        data.get("BUILD_CONTENTS", "undefined")
+                    )
 
                     for key, value in data.items():
                         if key in settings.REQUIRED_KEYS:
@@ -99,12 +106,15 @@ class settings:
 
                 else:
                     print(
-                        f"-> buildSettings missing required keys, {settings.REQUIRED_KEYS} must be present")
+                        f"-> buildSettings missing required keys, {settings.REQUIRED_KEYS} must be present"
+                    )
                     exit()
 
         except Exception as e:
             print(e)
-            print("-> unable to locate build settings, please ensure a 'buildSettings.json file is in the root of your project")
+            print(
+                "-> unable to locate build settings, please ensure a 'buildSettings.json file is in the root of your project"
+            )
             exit()
 
         return {}
