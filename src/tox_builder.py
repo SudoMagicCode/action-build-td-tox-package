@@ -4,7 +4,6 @@ import subprocess
 import sys
 
 import td_builder
-from src.td_builder.td_app_from_version import tdVersion
 
 artifact_dir_name = "artifacts"
 targets_dir_name = "targets"
@@ -22,7 +21,7 @@ def verify_output_dirs(targetDir: str) -> None:
 
 def start_td_project(build_settings: td_builder.build_settings.settings) -> None:
     # find all TouchDesigner versions on this machine
-    system_td_versions: dict[str, tdVersion] = (
+    system_td_versions: dict[str, td_builder.tdVersion] = (
         td_builder.windows_get_installed_versions()
     )
 
