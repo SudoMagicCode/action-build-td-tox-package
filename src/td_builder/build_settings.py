@@ -59,6 +59,7 @@ class settings:
             "SM_COMP_NAME": self.project_name,
             "SM_LOG_FILE": f"../{self.log_file}",
             "SM_TD_PACKAGE_FILE": f"../{self.td_package_file}",
+            "SM_BUILD_CONTENTS": self.build_contents.value
         }
 
         # add additional keys
