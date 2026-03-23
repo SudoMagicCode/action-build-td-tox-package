@@ -19,7 +19,7 @@ class settings:
         projectFile: str,
         tdVersion: str,
         privacy: str,
-        build: bool,
+        buildState: bool,
         projectName: str = 'TBD',
         releaseDir: str = 'artifacts',
         additionalKeys: dict = {},
@@ -29,7 +29,7 @@ class settings:
         self.project_file = projectFile
         self.td_version = tdVersion
         self.privacy = privacy
-        self.build = build
+        self.build = buildState
         self.project_name = projectName
         self.release_dir: Path = Path(releaseDir)
         self.package_dir: Path = self.release_dir / "package"
@@ -75,8 +75,8 @@ class settings:
     def env_vars(self) -> dict:
         # build required keys
         env_vars = {
-            "SM_BUILD": self.build,
-            "SM_PRIVACY": "FALSE",
+            "SM_BUILD": str(self.build).upper(),
+            "SM_PRIVACY": str(self.privacy).upper(),
             "SM_SAVE_PATH": self.dest_dir.as_posix(),
             "SM_COMP_NAME": self.project_name,
             "SM_LOG_FILE": self.log_file.as_posix(),
@@ -122,7 +122,7 @@ class settings:
                         projectFile=project_file_from_file,
                         tdVersion=td_version_from_file,
                         privacy=False,
-                        build=build_from_file,
+                        buildState=build_from_file,
                         projectName=project_name_from_file,
                         useTdm=use_tdm_from_file,
                         buildContents=build_contents_from_file,
