@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 def log_event(msg: str, indent: int = 0, isError: bool = False) -> None:
-    print(f"{datetime.now()} |{'❗' if isError else ''} {'--' * indent}> {msg}")
+    print(f"{datetime.now()} |{'⚠️' if isError else ''} {'--' * indent}> {msg}")
 
 
 def write_log_to_cloud(log_path: str) -> None:

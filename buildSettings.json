@@ -1,8 +1,8 @@
 {
-    "BUILD": "TRUE",
-    "TD_VERSION": "2023.12230",
+    "BUILD": true,
+    "TD_VERSION": "2025.32460",
     "PROJECT_FILE": "./TouchDesigner/project.toe",
-    "COMP_NAME": "Empty",
+    "COMP_NAME": "saveForRelease",
     "BUILD_CONTENTS": "packageZip",
     "USE_TDM": false
 }

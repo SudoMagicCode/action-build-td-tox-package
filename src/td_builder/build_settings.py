@@ -29,7 +29,7 @@ class settings:
         self.project_file = projectFile
         self.td_version = tdVersion
         self.privacy = privacy
-        self.build_state = buildState
+        self.build = buildState
         self.project_name = projectName
         self.release_dir: Path = Path(releaseDir)
         self.package_dir: Path = self.release_dir / "package"
@@ -39,17 +39,17 @@ class settings:
 
     def __repr__(self) -> str:
         return f'''----
-        project_file {self.project_file}
-        td_version {self.td_version}
-        privacy {self.privacy}
-        build {self.build_state}
-        project_name {self.project_name}
-        release_dir {self.release_dir}
-        package_dir {self.package_dir}
-        additional_keys {self.additional_keys}
-        use_tdm {self.use_tdm}
-        build_contents {self.build_contents}
-        ---'''
+    project_file    {self.project_file}
+    td_version      {self.td_version}
+    privacy         {self.privacy}
+    build           {self.build}
+    project_name    {self.project_name}
+    release_dir     {self.release_dir}
+    package_dir     {self.package_dir}
+    additional_keys {self.additional_keys}
+    use_tdm         {self.use_tdm}
+    build_contents  {self.build_contents}
+---'''
 
     @property
     def log_file(self) -> Path:
@@ -64,18 +64,10 @@ class settings:
         return self.dest_dir / "tdmPackages.yml"
 
     @property
-    def project_name(self) -> str:
-        return self.project_name
-
-    @property
-    def build_state(self) -> str:
-        return self.build_state
-
-    @property
     def env_vars(self) -> dict:
         # build required keys
         env_vars = {
-            "SM_BUILD": str(self.build_state).upper(),
+            "SM_BUILD": str(self.build).upper(),
             "SM_PRIVACY": str(self.privacy).upper(),
             "SM_SAVE_PATH": self.dest_dir.as_posix(),
             "SM_COMP_NAME": self.project_name,
