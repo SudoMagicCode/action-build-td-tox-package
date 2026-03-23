@@ -147,7 +147,8 @@ def main():
         case td_builder.tox_build_contents.toxFiles:
             build_inventory(build_settings=build_settings)
         case _:
-            print("Missing build contents should be : packageZip or toxFiles")
+            td_builder.log_event(
+                msg="Missing build contents should be : packageZip or toxFiles", isError=True)
             exit()
 
 
