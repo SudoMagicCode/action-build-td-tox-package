@@ -102,10 +102,11 @@ class settings:
 
                 if set(settings.REQUIRED_KEYS) <= data.keys():
                     log_event("all required keys accounted for", indent=1)
-                    build_from_file = data.get("BUILD", "development")
-                    td_version_from_file = data.get("TD_VERSION", "unknown")
+
                     project_file_from_file = data.get(
                         "PROJECT_FILE", "unknown")
+                    td_version_from_file = data.get("TD_VERSION", "unknown")
+                    build_from_file = data.get("BUILD", False)
                     project_name_from_file = data.get("COMP_NAME", "not-set")
                     use_tdm_from_file = data.get("USE_TDM", False)
                     build_contents_from_file = tox_build_contents.from_str(
