@@ -5,8 +5,8 @@ import os
 from datetime import datetime
 
 
-def log_event(msg: str, indent: int = 0) -> None:
-    print(f"{datetime.now()} | {'--' * indent}> {msg}")
+def log_event(msg: str, indent: int = 0, isError: bool = False) -> None:
+    print(f"{datetime.now()} |{'⚠️' if isError else ''} {'--' * indent}> {msg}")
 
 
 def write_log_to_cloud(log_path: str) -> None:
@@ -19,7 +19,7 @@ def write_log_to_cloud(log_path: str) -> None:
                 print(f"--> {line.strip()}")
 
         # deletes file after reading it
-        print(f"--> Cleaning up log")
+        log_event(msg="Cleaning up log", indent=1)
         os.remove(log_path)
     except Exception as e:
-        print("NO TD Log file present")
+        log_event(msg="NO TD Log file present")

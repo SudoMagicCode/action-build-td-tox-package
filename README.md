@@ -103,14 +103,14 @@ jobs:
     runs-on: [self-hosted, Windows, TouchDesigner]
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           fetch-tags: true
           submodules: true 
 
       - name: SudoMagic TD Package Builder
-        uses: SudoMagicCode/action-build-td-tox-package@v0.0.3
+        uses: SudoMagicCode/action-build-td-tox-package@v0.0.5
         with:
           build_settings: ./buildSettings.json
           
@@ -118,7 +118,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ./release/package.zip
+          files: ./artifacts/package.zip
 
 ```
 
