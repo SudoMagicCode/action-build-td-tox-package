@@ -1,5 +1,5 @@
 import json
-
+from pathlib import Path
 from .tox_build_contents import tox_build_contents
 
 
@@ -19,23 +19,23 @@ class settings:
         self.privacy: str
         self._build: str = "TRUE"
         self._project_name: str = "TBD"
-        self.release_dir: str = "artifacts"
-        self.package_dir: str = f"{self.release_dir}/package"
+        self.release_dir: Path = Path("artifacts")
+        self.package_dir: Path = self.release_dir / "package"
         self.additional_keys: dict = {}
         self.use_tdm: bool = False
         self.build_contents: tox_build_contents = tox_build_contents.undefined
 
     @property
-    def log_file(self) -> str:
-        return f"{self.release_dir}/log.txt"
+    def log_file(self) -> Path:
+        return fself.release_dir / "log.txt"
 
     @property
-    def dest_dir(self) -> str:
-        return f"{self.package_dir}/{self.project_name}"
+    def dest_dir(self) -> Path:
+        return self.package_dir / self.project_name
 
     @property
-    def td_package_file(self) -> str:
-        return f"{self.dest_dir}/tdmPackages.yml"
+    def td_package_file(self) -> Path:
+        return self.dest_dir / "tdmPackages.yml"
 
     @property
     def project_name(self) -> str:
@@ -51,10 +51,10 @@ class settings:
         env_vars = {
             "SM_BUILD": self.build,
             "SM_PRIVACY": "FALSE",
-            "SM_SAVE_PATH": f"../{self.dest_dir}",
+            "SM_SAVE_PATH": self.dest_dir.as_posix(),
             "SM_COMP_NAME": self.project_name,
-            "SM_LOG_FILE": f"../{self.log_file}",
-            "SM_TD_PACKAGE_FILE": f"../{self.td_package_file}",
+            "SM_LOG_FILE": self.log_file.as_posix(),
+            "SM_TD_PACKAGE_FILE": self.td_package_file.as_posix(),
             "SM_BUILD_CONTENTS": self.build_contents.value
         }
 
