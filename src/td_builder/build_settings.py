@@ -107,7 +107,7 @@ class settings:
                     project_file_from_file = data.get(
                         "PROJECT_FILE", "unknown")
                     project_name_from_file = data.get("COMP_NAME", "not-set")
-                    use_tdm_from_file = data.get("USE_TDM", 'False')
+                    use_tdm_from_file = data.get("USE_TDM", False)
                     build_contents_from_file = tox_build_contents.from_str(
                         data.get("BUILD_CONTENTS", "undefined"))
 
@@ -123,7 +123,7 @@ class settings:
                         privacy=False,
                         build=build_from_file,
                         projectName=project_name_from_file,
-                        useTdm=True if use_tdm_from_file.upper() == 'TRUE' else False,
+                        useTdm=use_tdm_from_file,
                         buildContents=build_contents_from_file,
                         additionalKeys=additional_keys
                     )
