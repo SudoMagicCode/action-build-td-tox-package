@@ -22,4 +22,4 @@ def write_log_to_cloud(log_path: str) -> None:
         log_event(msg="Cleaning up log", indent=1)
         os.remove(log_path)
     except Exception as e:
-        log_event(msg="NO TD Log file present")
+        log_event(msg="NO TD Log file present", isError=True)
