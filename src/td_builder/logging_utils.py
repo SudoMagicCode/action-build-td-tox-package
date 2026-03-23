@@ -18,7 +18,7 @@ def write_log_to_cloud(log_path: str) -> None:
         with open(log_path, 'r') as target_file:
             for line in target_file:
                 # Print each line
-                print(f"{line.strip()}")
+                print(f"    {line.strip()}")
 
         # deletes file after reading it
         log_event(msg="Cleaning up log", indent=1)

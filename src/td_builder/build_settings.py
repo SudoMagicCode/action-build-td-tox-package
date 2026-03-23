@@ -25,6 +25,20 @@ class settings:
         self.use_tdm: bool = False
         self.build_contents: tox_build_contents = tox_build_contents.undefined
 
+    def __repr__(self) -> str:
+        return f'''----
+        project_file {self.project_file}
+        td_version {self.td_version}
+        privacy {self.privacy}
+        build {self._build}
+        project_name {self._project_name}
+        release_dir {self.release_dir}
+        package_dir {self.package_dir}
+        additional_keys {self.additional_keys}
+        use_tdm {self.use_tdm}
+        build_contents {self.build_contents}
+        ---'''
+
     @property
     def log_file(self) -> Path:
         return self.release_dir / "log.txt"

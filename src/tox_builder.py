@@ -36,7 +36,7 @@ def start_td_project(build_settings: td_builder.build_settings.settings) -> None
 
     else:
         # run td project
-        td_builder.log_event("Starting TouchDesigner", indent=2)
+        td_builder.log_event("Starting TouchDesigner", indent=1)
         td_version = version_dict.get(build_settings.td_version)
         subprocess.call([td_version.path, build_settings.project_file])
 
@@ -73,6 +73,8 @@ def build_tox_package(build_settings: td_builder.build_settings.settings):
     # start TD Project
     start_td_project(build_settings)
 
+    td_builder.log_event(
+        "TouchDesigner Exit - reading logs from build :", indent=1)
     # check TD log files
     td_builder.write_log_to_cloud(build_settings.log_file)
 
@@ -130,11 +132,13 @@ def build_inventory(build_settings: td_builder.build_settings.settings):
 
 
 def main():
-    print("> creating release...")
-    print("> checking buildSettings.json ...")
+    td_builder.log_event("creating release...")
+    td_builder.log_event("checking buildSettings.json ...")
     settings_file_path: str = sys.argv[1]
     build_settings = td_builder.build_settings.settings()
     build_settings.load_from_json(settings_file_path)
+
+    print(build_settings)
 
     match build_settings.build_contents:
         case td_builder.tox_build_contents.packageZip:
