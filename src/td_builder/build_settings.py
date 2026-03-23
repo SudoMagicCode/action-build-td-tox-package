@@ -27,7 +27,7 @@ class settings:
 
     @property
     def log_file(self) -> Path:
-        return fself.release_dir / "log.txt"
+        return self.release_dir / "log.txt"
 
     @property
     def dest_dir(self) -> Path:
