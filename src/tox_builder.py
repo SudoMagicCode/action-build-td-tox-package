@@ -135,8 +135,8 @@ def main():
     td_builder.log_event("creating release...")
     td_builder.log_event("checking buildSettings.json ...")
     settings_file_path: str = sys.argv[1]
-    build_settings = td_builder.build_settings.settings()
-    build_settings.load_from_json(settings_file_path)
+    build_settings = td_builder.build_settings.settings.from_json(
+        settings_file_path)
 
     print(build_settings)
 
