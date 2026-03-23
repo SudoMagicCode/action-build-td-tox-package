@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 def log_event(msg: str, indent: int = 0, isError: bool = False) -> None:
-    print(f"{datetime.now()} |{'⚠️' if isError else ''} {'--' * indent}> {msg}")
+    print(f"{datetime.now()} |{'WARN' if isError else ''} {'--' * indent}> {msg}")
 
 
 def write_log_to_cloud(log_path: str) -> None:
@@ -24,4 +24,4 @@ def write_log_to_cloud(log_path: str) -> None:
         log_event(msg="Cleaning up log", indent=1)
         os.remove(log_path)
     except Exception as e:
-        log_event(msg="NO TD Log file present", isError=True)
+        log_event(msg="No TD Log file present", isError=True)

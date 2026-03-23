@@ -46,6 +46,7 @@ class settings:
     project_name    {self.project_name}
     release_dir     {self.release_dir}
     package_dir     {self.package_dir}
+    log_file        {self.log_file}
     additional_keys {self.additional_keys}
     use_tdm         {self.use_tdm}
     build_contents  {self.build_contents}
@@ -69,9 +70,9 @@ class settings:
         env_vars = {
             "SM_BUILD": str(self.build).upper(),
             "SM_PRIVACY": str(self.privacy).upper(),
-            "SM_SAVE_PATH": self.dest_dir.as_posix(),
+            "SM_SAVE_PATH": f"../{self.dest_dir.as_posix()}",
             "SM_COMP_NAME": self.project_name,
-            "SM_LOG_FILE": self.log_file.as_posix(),
+            "SM_LOG_FILE": f"../{self.log_file.as_posix()}",
             "SM_TD_PACKAGE_FILE": self.td_package_file.as_posix(),
             "SM_BUILD_CONTENTS": self.build_contents.value
         }
