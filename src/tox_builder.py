@@ -74,7 +74,7 @@ def build_tox_package(build_settings: td_builder.build_settings.settings):
     start_td_project(build_settings)
 
     # check TD log files
-    td_builder.read_td_log.write_log_to_cloud(build_settings.log_file)
+    td_builder.write_log_to_cloud(build_settings.log_file)
 
     # zip release
     td_builder.log_event("Zipping package", indent=2)
@@ -122,7 +122,7 @@ def build_inventory(build_settings: td_builder.build_settings.settings):
     start_td_project(build_settings)
 
     # check TD log files
-    td_builder.read_td_log.write_log_to_cloud(build_settings.log_file)
+    td_builder.write_log_to_cloud(build_settings.log_file)
 
     # cleanup environment variable keys
     td_builder.env_var_utils.clear_env_vars(
