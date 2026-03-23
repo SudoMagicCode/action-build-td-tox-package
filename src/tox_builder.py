@@ -5,9 +5,6 @@ import sys
 
 import td_builder
 
-artifact_dir_name = "artifacts"
-targets_dir_name = "targets"
-
 dist_info: dict = {}
 
 
@@ -86,7 +83,8 @@ def build_tox_package(build_settings: td_builder.build_settings.settings):
     )
 
     # cleanup environment variable keys
-    td_builder.env_var_utils.clear_env_vars(build_settings=build_settings.env_vars)
+    td_builder.env_var_utils.clear_env_vars(
+        build_settings=build_settings.env_vars)
 
 
 def build_inventory(build_settings: td_builder.build_settings.settings):
@@ -103,7 +101,8 @@ def build_inventory(build_settings: td_builder.build_settings.settings):
 
     dist_info = td_builder.distInfo.distInfo()
 
-    print(f"--> Creating build {dist_info.major}.{dist_info.minor}.{dist_info.patch}")
+    print(
+        f"--> Creating build {dist_info.major}.{dist_info.minor}.{dist_info.patch}")
     td_builder.log_event(
         f"Creating build {dist_info.major}.{dist_info.minor}.{dist_info.patch}",
         indent=2,
@@ -126,7 +125,8 @@ def build_inventory(build_settings: td_builder.build_settings.settings):
     td_builder.read_td_log.write_log_to_cloud(build_settings.log_file)
 
     # cleanup environment variable keys
-    td_builder.env_var_utils.clear_env_vars(build_settings=build_settings.env_vars)
+    td_builder.env_var_utils.clear_env_vars(
+        build_settings=build_settings.env_vars)
 
 
 def main():

@@ -19,7 +19,7 @@ class settings:
         self.privacy: str
         self._build: str = "TRUE"
         self._project_name: str = "TBD"
-        self.release_dir: str = "release"
+        self.release_dir: str = "artifacts"
         self.package_dir: str = f"{self.release_dir}/package"
         self.additional_keys: dict = {}
         self.use_tdm: bool = False
